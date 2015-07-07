@@ -51,7 +51,7 @@ void graph_dijkstra(Graph * g, int src){
 	bool visited[v];
 	int count, i;
 
-	// Initialize all distances as INFINITE and stpSet[] as false
+	// Initialize all distances as INFINITE and visited[] as false
 	for (i = 0; i < v; i++)
  	       dist[i] = INT_MAX, visited[i] = false;
      	dist[src] = 0;

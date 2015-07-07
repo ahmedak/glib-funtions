@@ -10,8 +10,8 @@ int main(int argc, char ** argv) {
 	while(1){
 	
 		printf("\nTimer started. Press any key to stop timer: ");
-		//scanf("%c", &key);
 		while(key = getchar() !='\n');
+		
 		// Stop timer
 		g_timer_stop(timer);
 		
