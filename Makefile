@@ -6,21 +6,21 @@ CFLAGS2=-lglib-2.0
 all: sparse Timer
 
 sparse: testSM.o SparseMatrix.o
-	$(CC) $(CFLAGS2) testSM.o SparseMatrix.o
+	$(CC) testSM.o SparseMatrix.o $(CFLAGS2) 
 testSM.o: SparseMatrix.h SparseMatrix.c testSM.c
 	$(CC) $(CFLAGS1) -c -o testSM.o testSM.c
 SparseMatrix.o: SparseMatrix.h SparseMatrix.c
 	$(CC) $(CFLAGS1) -c -o SparseMatrix.o SparseMatrix.c
 
 queue: Queue.o QueueTest.o
-	$(CC) $(CFLAGS2) Queue.o QueueTest.o
+	$(CC) Queue.o QueueTest.o $(CFLAGS2)
 QueueTest.o: Queue.c QueueTest.c
 	$(CC) $(CFLAGS1) -c -o QueueTest.o QueueTest.c
 Queue.o: Queue.c
 	$(CC) $(CFLAGS1) -c -o Queue.o Queue.c
 
 Timer: Timer.o
-	$(CC) $(CFLAGS2) Timer.o
+	$(CC) Timer.o $(CFLAGS2)
 Timer.o: Timer.c
 	$(CC) $(CFLAGS1) -c -o Timer.o Timer.c
 
