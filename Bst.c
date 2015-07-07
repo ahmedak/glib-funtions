@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include "Bst.h"
 
+/*Creates new bst */
 Bst * bst_new() {
 	Bst * b = malloc(sizeof(struct _node));
 	b->data = NULL;
@@ -11,6 +12,7 @@ Bst * bst_new() {
 	return b;
 }
 
+/* Reads contents from file and inserts into bst */
 int bst_insert_file(Bst * tree, const char * filename){
 	FILE * fin = fopen(filename, "r");
 	if(!fin)
@@ -18,12 +20,15 @@ int bst_insert_file(Bst * tree, const char * filename){
 	int el = 1;	
 	while(!feof(fin)){
 		fscanf(fin, "%d", &el);
+		// Insert into the bst
 		bst_insert(tree, el);
 	}
 	return 1;
 }
 
+/* Manually insert an element into the bst */
 int bst_insert(Bst * tree, int element){
+	//If the bst is empty	
 	if(tree->data == NULL){
 		tree->data = malloc(sizeof(int));
 		*tree->data = element;
@@ -54,6 +59,7 @@ int bst_insert(Bst * tree, int element){
 	else return 0;
 }
 
+/* Search for an element in bst */
 int bst_search(Bst * tree, int element){
 	Bst * x = tree; 
 	while(x != NULL && x->data != NULL){
@@ -66,6 +72,7 @@ int bst_search(Bst * tree, int element){
 	return 0;
 }
 
+/* Returns the minimum of a subtree */
 Bst * bst_minimum(Bst * node){
 	Bst * x = node;
 	while(x->leftChild)
@@ -73,6 +80,7 @@ Bst * bst_minimum(Bst * node){
 	return x;
 }
 
+/* Returns the successor of a node */
 Bst * bst_successor(Bst * x){
 	if(x->rightChild)
 		return bst_minimum(x->rightChild);
@@ -86,6 +94,7 @@ Bst * bst_successor(Bst * x){
 	}
 }
 
+/* Deletes a node from the bst */
 int bst_delete(Bst * root, int element){
 	if(root == NULL)
 		return 0;
@@ -124,6 +133,7 @@ int bst_delete(Bst * root, int element){
 	return 0;
 }
 
+/* Prints inorder traversal */
 void bst_inorder(Bst * x) {
 	if(!x)
 		return;
@@ -134,6 +144,7 @@ void bst_inorder(Bst * x) {
 	bst_inorder(x->rightChild);
 }
 
+/* Prints postorder traversal */
 void bst_postorder(Bst * x) {
 	if(!x)
 		return;
@@ -144,6 +155,7 @@ void bst_postorder(Bst * x) {
 	else	printf("(null)");
 }
 
+/* Prints preorder traversal */
 void bst_preorder(Bst * x) {
 	if(!x)
 		return;
