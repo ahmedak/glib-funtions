@@ -11,7 +11,7 @@ int main(int argc, char ** argv) {
 		getchar();
 		g_timer_stop(timer);
 		elapsed = g_timer_elapsed(timer, NULL);
-		printf("Time elapsed: %fs\n", elapsed);
+		printf("Time Elapsed: %fs\n", elapsed);
 		printf("\nPress 'r' to reset timer, any other key to exit: ");	
 		scanf("%c", &key);
 		if(key=='r'){
