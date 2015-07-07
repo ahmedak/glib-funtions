@@ -3,7 +3,7 @@ CC=gcc
 CFLAGS1=-I/usr/include/glib-2.0/ -I/usr/lib/x86_64-linux-gnu/glib-2.0/include/ -I/usr/lib/x86_64-linux-gnu/glib-2.0
 CFLAGS2=-lglib-2.0
 
-all: sparse Timer
+all: sparse Timer queue
 
 sparse: testSM.o SparseMatrix.o
 	$(CC) testSM.o SparseMatrix.o $(CFLAGS2) 
