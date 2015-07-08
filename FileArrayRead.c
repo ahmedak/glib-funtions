@@ -1,10 +1,12 @@
 #include <glib.h>
 #include<glib/gstdio.h>
 
+/* Utility function to compare two integers. Used by g_array_sort */
 gint int_comparator(gconstpointer item1, gconstpointer item2) {
  	return *(int*)item1-*(int*)item2;
 }
 
+/* Print the array */
 void print_array(GArray * a) {
 	int i;
 	for(i=0; i<(a->len); i++)
@@ -12,7 +14,8 @@ void print_array(GArray * a) {
 	g_printf("\n");
 }
 
-void find_element(int x,GArray* a){
+/* Function to search for element */
+void find_element(int x, GArray* a){
 	int i;
 	for(i=0;i<a->len;i++)
 		if(g_array_index(a,int,i)==x){
@@ -22,13 +25,15 @@ void find_element(int x,GArray* a){
 	printf("\nElement not found in the array\n");
 }
 
+
 int main(int argc, char ** argv) {
         gchar * fcontents = NULL;
         gsize * len = NULL;
         const gchar * filename = argv[1];
         gboolean bl=g_file_get_contents(filename, &fcontents, len, NULL);
         if(bl==TRUE) {
-                GArray * array = g_array_new(FALSE, FALSE, sizeof(int));
+                // Create new GArray
+		GArray * array = g_array_new(FALSE, FALSE, sizeof(int));
                 gchar **p = g_strsplit(fcontents,"\n",0);
                 int i,x;
 		for(i=0; p[i]!=NULL; i++){
@@ -37,10 +42,15 @@ int main(int argc, char ** argv) {
 				g_array_append_val(array, r);
 			}
 		}
+
+		// Sort array
 		g_array_sort(array, (GCompareFunc)int_comparator);
 		g_printf("\nEnter the number to searched for:  ");
 		scanf("%d",&x);
+		
+		// Search for element
 		find_element(x,array);
+		
 		g_printf("\nSorted Array: \n");
 		print_array(array);
                 g_printf("\nMaximum element: %d\n", g_array_index(array, int, (array->len)-1));
