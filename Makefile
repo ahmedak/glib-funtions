@@ -25,5 +25,5 @@ Timer.o: Timer.c
 	$(CC) $(CFLAGS1) -c -o Timer.o Timer.c
 
 clean:
-	rm -f a.out
+	rm -f a.out *.o
 
