@@ -2,6 +2,7 @@
 //#include "Queue.c"
 #include <stdio.h>
 #include <glib.h>
+typedef GQueue * queue;
 
 void queueInfo(queue* qqq) {
 	printf("The head of the queue is %s\n",queue_show_head(qqq));
