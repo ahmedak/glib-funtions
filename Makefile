@@ -14,9 +14,9 @@ SparseMatrix.o: SparseMatrix.h SparseMatrix.c
 
 queue: Queue.o QueueTest.o
 	$(CC) Queue.o QueueTest.o $(CFLAGS2)
-QueueTest.o: Queue.c QueueTest.c
+QueueTest.o: Queue.h Queue.c QueueTest.c
 	$(CC) $(CFLAGS1) -c -o QueueTest.o QueueTest.c
-Queue.o: Queue.c
+Queue.o: Queue.h Queue.c
 	$(CC) $(CFLAGS1) -c -o Queue.o Queue.c
 
 Timer: Timer.o
