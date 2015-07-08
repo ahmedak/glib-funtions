@@ -1,17 +1,15 @@
-
-//#include "Queue.c"
+#include "Queue.h"
 #include <stdio.h>
 #include <glib.h>
-typedef GQueue * queue;
 
-void queueInfo(queue* qqq) {
+void queueInfo(queue qqq) {
 	printf("The head of the queue is %s\n",queue_show_head(qqq));
 	printf("The tail of the queue is %s\n",queue_show_tail(qqq));
 	printf("The length of the queue is %d\n",queue_length(qqq));
 } // end queueInfo()
 
 int main() {
-	queue* qq = NULL;
+	queue qq = NULL;
 	char* ch;
 
 	qq =  queue_new();
