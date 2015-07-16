@@ -3,13 +3,15 @@
 #include <stdlib.h>
 #include "SparseMatrix.h"
 
+/* Compares two elements based on their weights (relative position) */
 gint compare_elements(gpointer a, gpointer b){
 	gint weight1 = ((element *)a)->row*10 + ((element *)a)->col;
 	gint weight2 = ((element *)b)->row*10 + ((element *)b)->col;
 	return weight1 - weight2;
 }
 
-Sparsemat * createMatrix(int maxRow, int maxCol){	
+/* Creates a new sparse matrix with given number of rows and columns */
+Sparsemat * sm_create_matrix(int maxRow, int maxCol){	
 	Sparsemat * s = (Sparsemat*)malloc(sizeof(struct _sm));
 	s->el = g_array_new(FALSE, FALSE, sizeof(element));
 	s->maxRow = maxRow;
@@ -18,7 +20,8 @@ Sparsemat * createMatrix(int maxRow, int maxCol){
 	return s;
 }
 
-gboolean getElement(Sparsemat * smat, int row, int col, int * value){
+/* Stores the value of element at given row, column into given variable */
+gboolean sm_get_element(Sparsemat * smat, int row, int col, int * value){
 	int index;
 	for(index=0; index < smat->tot; index++){
 		element e = g_array_index(smat->el, element, index); 
@@ -30,7 +33,8 @@ gboolean getElement(Sparsemat * smat, int row, int col, int * value){
 	return FALSE;
 }
 
-gboolean setElement(Sparsemat * smat, int row, int col, int val){
+/* Set an element at given row, column to given value */
+gboolean sm_set_element(Sparsemat * smat, int row, int col, int val){
 	element x;
 	x.row = row;
 	x.col = col;
@@ -44,7 +48,8 @@ gboolean setElement(Sparsemat * smat, int row, int col, int val){
 	else return FALSE;
 }
 
-gboolean searchElement(Sparsemat * smat, int el, element * e){
+/* Searches for, and stores a given element into given variable if found */
+gboolean sm_search_element(Sparsemat * smat, int el, element * e){
 	int index;
 	for(index = 0; index < smat->tot; index++){
 		 *e = g_array_index(smat->el, element, index);
@@ -55,7 +60,8 @@ gboolean searchElement(Sparsemat * smat, int el, element * e){
 	return FALSE;
 }
 
-void printMatrix(Sparsemat * smat) {
+/* Prints entire sparse matrix */
+void sm_print_matrix(Sparsemat * smat) {
 	int i, j, index = 0 ;
 	for(i =1; i <= smat->maxRow; i++){
 		for(j=1; j <= smat->maxCol; j++){
@@ -71,8 +77,9 @@ void printMatrix(Sparsemat * smat) {
 	}
 }
 
-Sparsemat * addMatrix(Sparsemat * sm1, Sparsemat * sm2){
-	Sparsemat  * sm3 = createMatrix (0, 0);
+/* Adds two compatible sparse matrices */
+Sparsemat * sm_add_matrix(Sparsemat * sm1, Sparsemat * sm2){
+	Sparsemat  * sm3 = sm_create_matrix (0, 0);
 	if(sm1->maxCol == sm2->maxCol && sm1->maxRow == sm2->maxRow){
 		sm3->maxRow = sm1->maxRow;
 		sm3->maxCol = sm1->maxCol;
@@ -98,16 +105,16 @@ Sparsemat * addMatrix(Sparsemat * sm1, Sparsemat * sm2){
 				e3 = e2;
 				ptr2++;
 			}
-			setElement(sm3, e3.row, e3.col, e3.value);
+			sm_set_element(sm3, e3.row, e3.col, e3.value);
 		}
 		while(ptr1 < sm1->tot){
 			e3 = g_array_index(sm1->el, element, ptr1);
-			setElement(sm3, e3.row, e3.col, e3.value);
+			sm_set_element(sm3, e3.row, e3.col, e3.value);
 			ptr1++;
 		}
 		while(ptr2 < sm2->tot){
 			e3 = g_array_index(sm2->el, element, ptr2);
-			setElement(sm3, e3.row, e3.col, e3.value);
+			sm_set_element(sm3, e3.row, e3.col, e3.value);
 			ptr2++;
 		}
 		return sm3;
@@ -115,18 +122,20 @@ Sparsemat * addMatrix(Sparsemat * sm1, Sparsemat * sm2){
 	else return sm3;
 }
 
-Sparsemat * transpose(Sparsemat * smat){
-	Sparsemat * sm1 = createMatrix(smat->maxCol, smat->maxRow);
+/* Computes transpose of sparse matrix */
+Sparsemat * sm_transpose(Sparsemat * smat){
+	Sparsemat * sm1 = sm_create_matrix(smat->maxCol, smat->maxRow);
 	sm1->tot= smat->tot;
 	int index, temp;
 	for(index=0; index < smat->tot; index++){
 		element  e = g_array_index(smat->el, element, index);
-		setElement( sm1, e.col, e.row, e.value);
+		sm_set_element( sm1, e.col, e.row, e.value);
 	}
 	return sm1;
 }
 
-gboolean traceMatrix(Sparsemat * smat, int * sum){
+/* Computes trace of a sparse matrix */
+gboolean sm_trace_matrix(Sparsemat * smat, int * sum){
 	*sum = 0;
 	if(smat->maxRow != smat->maxCol)
 		return FALSE;
@@ -141,7 +150,8 @@ gboolean traceMatrix(Sparsemat * smat, int * sum){
 	}
 }
 
-Sparsemat * scaleMatrix(Sparsemat * smat, int scale_factor){
+/* Scales the matrix by scale_factor */
+Sparsemat * sm_scale_matrix(Sparsemat * smat, int scale_factor){
 	Sparsemat * sm1 = smat;
 	int index;
 	for(index = 0; index < sm1->tot; index++){
