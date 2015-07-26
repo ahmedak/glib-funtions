@@ -51,25 +51,25 @@ gboolean balanced_bst_delete(Bst * tree, int element);
 /***************************************
  * Function: balanced_bst_inorder
  *
- * Prints the inorder traversal of the 
- * tree
+ * Stores the inorder traversal of the 
+ * tree in an array
  ****************************************/
-void balanced_bst_inorder(Bst * tree);
+GArray * balanced_bst_inorder(Bst * tree, GArray * traversal);
 
 /***************************************
  * Function: balanced_bst_preoder
  *
- * Prints the preorder traversal of the 
- * tree
+ * Stores the preorder traversal of the 
+ * tree in an array
  ****************************************/
-void balanced_bst_preorder(Bst * tree);
+GArray * balanced_bst_preorder(Bst * tree, GArray * traversal);
 
 /***************************************
  * Function: balanced_bst_postorder
  *
- * Prints the postorder traversal of the 
- * tree
+ * Stores the postorder traversal of the 
+ * tree in an array
  ****************************************/
-void balanced_bst_postorder(Bst * tree);
+GArray * balanced_bst_postorder(Bst * tree, GArray * traversal);
 
 #endif

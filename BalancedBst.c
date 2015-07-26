@@ -9,14 +9,14 @@ gint int_comparator(gconstpointer item1, gconstpointer item2) {
 }
 
 /* Utility function to print during traversal of tree */
-gboolean traverse_func(gpointer key, gpointer value, gpointer data){
-	printf("  %d", *(int *)value);
+gboolean traverse_func(gpointer key, gpointer value, gpointer data){ 
+	g_array_append_val((GArray *)data, *(int*)value);
 	return FALSE;
 }
 
 /* Create new balanced BST */
 Bst * balanced_bst_new (){
-	Bst * b = g_tree_new((GCompareFunc)int_comparator);
+	Bst * b = g_tree_new((GCompareFunc)int_comparator); 
 	return b;
 }
 
@@ -72,16 +72,25 @@ gboolean balanced_bst_delete(Bst * tree, int element){
 }
 
 /* Print inorder traversal */
-void balanced_bst_inorder(Bst * tree) {
-	g_tree_traverse(tree, (GTraverseFunc)traverse_func, G_IN_ORDER, NULL);
+GArray * balanced_bst_inorder(Bst * tree, GArray * traversal) {
+	g_array_free(traversal, TRUE);
+	GArray * newtraversal = g_array_new(FALSE, FALSE, sizeof(int));
+	g_tree_traverse(tree, (GTraverseFunc)traverse_func, G_IN_ORDER, newtraversal);
+	return newtraversal;
 }
 
 /* Print postorder traversal */
-void balanced_bst_postorder(Bst * tree) {
-	g_tree_traverse(tree, (GTraverseFunc)traverse_func, G_POST_ORDER, NULL);
+GArray * balanced_bst_postorder(Bst * tree, GArray * traversal) {
+	g_array_free(traversal, TRUE);
+	GArray * newtraversal = g_array_new(FALSE, FALSE, sizeof(int));
+	g_tree_traverse(tree, (GTraverseFunc)traverse_func, G_POST_ORDER, newtraversal);
+	return newtraversal;
 }
 
 /* Print preorder traversal */
-void balanced_bst_preorder(Bst * tree) {
-	g_tree_traverse(tree, (GTraverseFunc)traverse_func, G_PRE_ORDER, NULL);
+GArray * balanced_bst_preorder(Bst * tree, GArray * traversal) {
+	g_array_free(traversal, TRUE);
+	GArray * newtraversal = g_array_new(FALSE, FALSE, sizeof(int));
+	g_tree_traverse(tree, (GTraverseFunc)traverse_func, G_PRE_ORDER, newtraversal);
+	return newtraversal;
 }
