@@ -15,14 +15,14 @@ void print_array(GArray * a) {
 }
 
 /* Function to search for element */
-void find_element(int x, GArray* a){
+int find_element(int x, GArray* a, int* pos){
 	int i;
 	for(i=0;i<a->len;i++)
 		if(g_array_index(a,int,i)==x){
-			g_printf("\nElement found at position %d\n",i);
-			return;
+			*pos = i;
+			return 1;
 		}
-	printf("\nElement not found in the array\n");
+	return 0;
 }
 
 
@@ -49,7 +49,11 @@ int main(int argc, char ** argv) {
 		scanf("%d",&x);
 		
 		// Search for element
-		find_element(x,array);
+		int position = -1;
+		if(find_element(x, array, &position))
+			g_printf("\nElement found at position %d\n", position);
+		else
+			g_printf("\nElement not found\n");
 		
 		g_printf("\nSorted Array: \n");
 		print_array(array);
