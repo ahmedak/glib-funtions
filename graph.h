@@ -17,8 +17,13 @@ typedef struct _Edge{
 
  ********************************************/
 typedef struct _mst{
+<<<<<<< Updated upstream
 	int e;
 	Edge * edge;
+=======
+	int e;		//no of edges in mst
+	Edge * edge;	// edge array
+>>>>>>> Stashed changes
 }Mst;
 
 /********************************************
@@ -27,8 +32,13 @@ typedef struct _mst{
  *
  ********************************************/
 typedef struct _path{
+<<<<<<< Updated upstream
 	int v;
 	int * distance;
+=======
+	int v;		//source vertex
+	int * distance;	//distance to all vertices in graph
+>>>>>>> Stashed changes
 }Path;
 
 /********************************************
