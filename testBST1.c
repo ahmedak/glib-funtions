@@ -1,18 +1,32 @@
 #include <stdio.h>
+#include <glib.h>
 #include "Bst.h"
+
+/* Print the array */
+void print_array(GArray * a) {
+	int i;
+	for(i=0; i<(a->len); i++)
+		printf("%d  ", g_array_index(a, int, i));
+	printf("\n");
+}
+
 
 int main (int argc, char ** argv) {
 	Bst * tree = bst_new();
+	GArray * traversal = g_array_new(FALSE, FALSE, sizeof(int));
 	if(argc != 2){
 		printf("Usage: ./example <filename.txt>\n");
 		return 0;
 	}
 	if(bst_insert_file(tree, argv[1]))
 		printf("\nInserted from file");
-	else printf("\n Error reading from file");
-	
+	else {
+		printf("\n Error reading from file");
+		return 1;
+	}
 	printf("\n\nInorder traversal: ");
-	bst_inorder(tree);
+	traversal = bst_inorder(tree, traversal);
+	print_array(traversal);
 
 	if(bst_delete(tree, 3))
 		printf("\n\nDeleted 3");
@@ -25,13 +39,16 @@ int main (int argc, char ** argv) {
 
 
 	printf("\nInorder after deleting: ");
-	bst_inorder(tree);
+	traversal = bst_inorder(tree, traversal);
+	print_array(traversal);
 
 	printf("\n\nPostorder traversal: ");
-	bst_postorder(tree);
-	
+	traversal = bst_postorder(tree, traversal);
+	print_array(traversal);
+
 	printf("\n\nPreorder traversal: ");
-	bst_preorder(tree);
+	traversal = bst_preorder(tree, traversal);
+	print_array(traversal);
 	printf("\n");
 
 	if(bst_search(tree, 3))
@@ -45,7 +62,8 @@ int main (int argc, char ** argv) {
 		printf("\n99 already present\n");
 	
 	printf("\nInorder traversal now: ");
-	bst_inorder(tree);
+	traversal = bst_inorder(tree, traversal);
+	print_array(traversal);
 	printf("\n");
 
 	return 0;
