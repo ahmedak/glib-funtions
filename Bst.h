@@ -51,25 +51,25 @@ int bst_delete(Bst * tree, int element);
 /***************************************
  * Function: bst_inorder
  *
- * Prints the inorder traversal of the 
- * tree
+ * Stores the inorder traversal of the 
+ * tree to an array
  ****************************************/
-void bst_inorder(Bst * tree);
+GArray * bst_inorder(Bst * tree, GArray * traversal);
 
 /***************************************
  * Function: bst_preoder
  *
- * Prints the preorder traversal of the 
- * tree
+ * Stores the preorder traversal of the 
+ * tree to an array
  ****************************************/
-void bst_preorder(Bst * tree);
+GArray *  bst_preorder(Bst * tree, GArray * traversal);
 
 /***************************************
  * Function: bst_postorder
  *
- * Prints the postorder traversal of the 
- * tree
+ * Stores the postorder traversal of the 
+ * tree to an array
  ****************************************/
-void bst_postorder(Bst * tree);
+GArray * bst_postorder(Bst * tree, GArray * traversal);
 
 #endif
