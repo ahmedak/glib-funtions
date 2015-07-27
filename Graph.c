@@ -22,30 +22,17 @@ int graph_min_distance(int dist[], bool visited[], int v){
 }
  
 /*********************************************
- * Function: graph_print_solution
- * 
- * Print the constructed distance array
- * (dijkstra's algorithm)
- *********************************************/
-int graph_print_solution(int dist[], int v, int src){
-	int i;
-	printf("Vertex   Distance from %d\n",src);
-   	for (i = 0; i < v; i++)
-		if(dist[i] < INT_MAX && dist[i] > INT_MIN)
-			printf("%d \t\t %d\n", i, dist[i]);
-		else
-			printf("%d \t\t -\n", i);
-}
- 
-/*********************************************
  * Funtion: graph_dijkstra
  * 
  * Function that implements Dijkstra's single source 
  * shortest path algorithm for a graph represented 
  * using adjacency matrix representation
  **********************************************/
-void graph_dijkstra(Graph * g, int src){
+Path * graph_dijkstra(Graph * g, int src){
+	Path * dj = malloc(sizeof(struct _path));
+	dj->distance = malloc((g->V)*sizeof(int));
 	int v = g->V;
+	dj-> v = v;
 	int ** graph = g->am;	
 	int dist[v];
 	bool visited[v];
@@ -64,7 +51,8 @@ void graph_dijkstra(Graph * g, int src){
 			if (!visited[i] && graph[u][i] && dist[u]+graph[u][i] < dist[i])
             			dist[i] = dist[u] + graph[u][i];
      	}
-     	graph_print_solution(dist, v, src);
+	dj->distance = dist;
+	return dj;
 }
 
 
@@ -92,7 +80,7 @@ Graph * graph_new(int V, int E, int d){
  * Insert data from file(adjacency matrix representation)
  * to graph
  ********************************************/
-Graph * graph_file_insert(const char * filename){
+int graph_file_insert(Graph * graph, const char * filename){
 	char c;
 	int v = 0, d = 0, e = 0, i, j;
 	FILE * fp = fopen(filename, "r");
@@ -102,7 +90,6 @@ Graph * graph_file_insert(const char * filename){
 			if(c == '\n')
 				v++;	
 		}
-		//printf("No of vertices: %d\n", v);
 
 		fseek(fp, 0 ,SEEK_SET);
 		int ** g = malloc(v*sizeof(int*));
@@ -121,8 +108,11 @@ Graph * graph_file_insert(const char * filename){
 			}
 		if(!d)
 			e = e/2;
-		//printf("e: %d\n", e);
-		Graph * graph = graph_new(v, e, d);
+		
+		//If given graph parameters do not match the ones from the file
+		if(graph->V != v || graph->E != e || graph->d != d)
+			return 0;
+		
 		graph->am = g;
 		e = -1;
 		for(i = 0; i < v; i++)
@@ -133,12 +123,11 @@ Graph * graph_file_insert(const char * filename){
 						graph->edge[e].src = i;
 						graph->edge[e].dest = j;
 						graph->edge[e].weight = g[i][j];
-						//printf("Edge no: %d\tsrc: %d  dest: %d  weight: %d\n",  e, i, j, g[i][j]);
 					}
 	
-		return graph;
+		return 1;
 	}
-	return NULL;
+	return 0;
 }
 
 /*******************************************
@@ -171,8 +160,8 @@ void graph_union(subset  s[], int x, int y){
         	s[xroot].parent = yroot;
     	else 
 		s[yroot].parent = xroot;
-	if (s[xroot].rank = s[yroot].rank)
-        s[xroot].rank++;
+	if (s[xroot].rank == s[yroot].rank)
+        	s[xroot].rank++;
 }
  
 /******************************************
@@ -193,8 +182,9 @@ int edge_comparator(const void* a, const void* b){
  * 
  * Function to construct MST using Kruskal's algorithm
  *******************************************/
-void graph_mst_kruskal(Graph * graph){
-    	int V = graph->V;
+Mst * graph_mst_kruskal(Graph * graph){
+    	Mst * m = malloc(sizeof(struct _mst));
+	int V = graph->V;
     	Edge result[V];  // The resultant MST
     	int e = 0;
     	int i = 0;
@@ -219,11 +209,8 @@ void graph_mst_kruskal(Graph * graph){
             		result[e++] = next_edge;
             		graph_union(s, x, y);
         	}
-	}
- 
-    	// print the contents of result[] to display the built MST
-    	printf("Following are the edges in the MST\n");
-    	for (i = 0; i < e; ++i)
-        	printf("%d --%d-- %d\n", result[i].src, result[i].weight, result[i].dest);
-    	return;
+	} 
+	m->e = e;
+	m->edge = result;	
+	return m;
 }
