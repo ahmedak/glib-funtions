@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <glib.h>
 #include "Bst.h"
 
 /*Creates new bst */
@@ -134,34 +135,48 @@ int bst_delete(Bst * root, int element){
 }
 
 /* Prints inorder traversal */
-void bst_inorder(Bst * x) {
+GArray * bst_inorder(Bst * x, GArray * traversal) {
 	if(!x)
-		return;
-	bst_inorder(x->leftChild);
-	if(x->data)
-		printf("%d  ", *x->data);
-	else	printf("(null)");
-	bst_inorder(x->rightChild);
+		return traversal;
+	//Clear array to prevent duplicate insertions
+	if(x->parent == NULL){
+		g_array_free(traversal, TRUE);
+		traversal = g_array_new(FALSE, FALSE, sizeof(int));
+	}
+	traversal = bst_inorder(x->leftChild, traversal);
+	g_array_append_val(traversal, *x->data);
+	traversal = bst_inorder(x->rightChild, traversal);
+	return traversal;
 }
 
 /* Prints postorder traversal */
-void bst_postorder(Bst * x) {
+GArray * bst_postorder(Bst * x, GArray * traversal) {
 	if(!x)
-		return;
-	bst_postorder(x->leftChild);
-	bst_postorder(x->rightChild);
+		return traversal;
+	//Clear array to prevent duplicate insertions
+	if(x->parent == NULL){
+		g_array_free(traversal, TRUE);
+		traversal = g_array_new(FALSE, FALSE, sizeof(int));
+	}
+	traversal = bst_postorder(x->leftChild, traversal);
+	traversal = bst_postorder(x->rightChild, traversal);
 	if(x->data)
-		printf("%d  ", *x->data);
-	else	printf("(null)");
+		g_array_append_val(traversal, *x->data);
+	return traversal;
 }
 
 /* Prints preorder traversal */
-void bst_preorder(Bst * x) {
+GArray * bst_preorder(Bst * x, GArray * traversal) {
 	if(!x)
-		return;
+		return traversal;
+	//Clear array to prevent duplicate insertions
+	if(x->parent == NULL){
+		g_array_free(traversal, TRUE);
+		traversal = g_array_new(FALSE, FALSE, sizeof(int));
+	}
 	if(x->data)
-		printf("%d  ", *x->data);
-	else	printf("(null)");
-	bst_preorder(x->leftChild);
-	bst_preorder(x->rightChild);
+		g_array_append_val(traversal, *x->data);
+	traversal = bst_preorder(x->leftChild, traversal);
+	traversal = bst_preorder(x->rightChild, traversal);
+	return traversal;
 }
