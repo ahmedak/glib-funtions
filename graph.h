@@ -12,6 +12,26 @@ typedef struct _Edge{
 }Edge;
  
 /********************************************
+ * Structure to represent a minimum spanning
+ * tree
+
+ ********************************************/
+typedef struct _mst{
+	int e;
+	Edge * edge;
+}Mst;
+
+/********************************************
+ * Structure to represent various paths from a
+ * source vertex to other vertices in a graph
+ *
+ ********************************************/
+typedef struct _path{
+	int v;
+	int * distance;
+}Path;
+
+/********************************************
  * Structure to represent a connected, weighted 
  * graph
  *
@@ -44,21 +64,13 @@ typedef struct _subset{
 int graph_min_distance(int dist[], bool visited[], int v);
 
 /*********************************************
- * Function: graph_print_solution
- * 
- * Print the constructed distance array
- * (dijkstra's algorithm)
- *********************************************/
-int graph_print_solution(int dist[], int v, int src);
-
-/*********************************************
  * Funtion: graph_dijkstra
  * 
  * Function that implements Dijkstra's single source 
  * shortest path algorithm for a graph represented 
  * using adjacency matrix representation
  **********************************************/
-void graph_dijkstra(Graph * g, int src);
+Path * graph_dijkstra(Graph * g, int src);
 
 /*******************************************
  * Function: graph_new
@@ -75,7 +87,7 @@ Graph * graph_new(int V, int E, int d);
  * Insert data from file(adjacency matrix representation)
  * to graph
  ********************************************/
-Graph * graph_file_insert(const char * filename);
+int graph_file_insert(Graph * graph, const char * filename);
 
 /*******************************************
  * Function: graph_find
@@ -106,6 +118,6 @@ int edge_comparator(const void* a, const void* b);
  *  
  * Function to construct MST using Kruskal's algorithm
  *******************************************/
-void graph_mst_kruskal(Graph * graph);
+Mst * graph_mst_kruskal(Graph * graph);
 
 #endif
