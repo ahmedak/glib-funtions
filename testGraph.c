@@ -4,7 +4,7 @@
 
 int main(int argc, char ** argv) {
 	if(argc == 2){ 
-		Graph * g = graph_new(4, 4, 2);
+		Graph * g = graph_new(4, 4, 0);
 		Path * d;
 		Mst * m;
 		int i, src;
